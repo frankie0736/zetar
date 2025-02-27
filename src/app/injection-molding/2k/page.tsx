@@ -16,7 +16,7 @@ import {
   DecisionTree,
   RelatedTech,
   PartnerWithUs,
-  RouteList,
+  SidebarNav,
 } from '@/components/sections/templates';
 
 export default function PVCInjectionMolding() {
@@ -26,7 +26,7 @@ export default function PVCInjectionMolding() {
         <div className="space-y-6">
           <div>
             <h3 className="mb-4 px-4 text-sm font-semibold">Services</h3>
-            <RouteList />
+            <SidebarNav />
           </div>
         </div>
       }

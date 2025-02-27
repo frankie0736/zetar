@@ -18,4 +18,4 @@ export * from './where-its-used';
 export * from './why-choose-us';
 
 // Utils
-export * from './route-list';
+export * from './sidebar-nav';

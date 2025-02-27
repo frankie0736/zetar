@@ -6,7 +6,7 @@ import { NavigationMenuLink } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { type DropdownItem } from '@/constants/nav-link';
 import { type ServiceMenuItemProps } from './types';
-import { ArrowRight, ChevronDown, ChevronRight, Info } from 'lucide-react';
+import { ArrowRight, Info } from 'lucide-react';
 
 export interface ServiceMenuProps {
   serviceItems: DropdownItem[];
@@ -57,22 +57,9 @@ export function ServiceMenu({
     activeServiceItem?.dropdownItems &&
     activeServiceItem.dropdownItems.length <= 6;
 
-  // State to track which deep menu items are expanded
-  const [expandedItems, setExpandedItems] = React.useState<
-    Record<string, boolean>
-  >({});
-
-  // Toggle expanded state for a specific item
-  const toggleExpanded = (itemTitle: string) => {
-    setExpandedItems((prev) => ({
-      ...prev,
-      [itemTitle]: !prev[itemTitle],
-    }));
-  };
-
-  // Check if an item has many children (for deep menus like 3D Printing)
-  const hasDeepMenu = (item: DropdownItem): boolean => {
-    return item.dropdownItems !== undefined && item.dropdownItems.length > 4;
+  // Check if an item has third-level menu items
+  const hasThirdLevelMenu = (item: DropdownItem): boolean => {
+    return item.dropdownItems !== undefined && item.dropdownItems.length > 0;
   };
 
   return (
@@ -151,71 +138,59 @@ export function ServiceMenu({
 
             {serviceItem.dropdownItems &&
               serviceItem.dropdownItems.length > 0 && (
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-2">
                   {serviceItem.dropdownItems.map((subItem, subIndex) => (
-                    <div key={subIndex} className="space-y-3">
-                      {/* For items with deep menus (like 3D Printing) */}
-                      {hasDeepMenu(subItem) ? (
-                        <div className="overflow-hidden rounded-md border">
-                          {/* Accordion header */}
-                          <div
-                            className="hover:bg-muted/50 flex cursor-pointer items-center justify-between p-3"
-                            onClick={() => toggleExpanded(subItem.title)}
-                          >
-                            <div className="flex items-center gap-2 text-sm font-medium">
-                              {subItem.icon && (
-                                <subItem.icon className="h-4 w-4" />
-                              )}
-                              {subItem.title}
-                            </div>
-                            <div className="flex items-center">
-                              <span className="text-muted-foreground mr-2 text-xs">
-                                {subItem.dropdownItems?.length} options
-                              </span>
-                              {expandedItems[subItem.title] ? (
-                                <ChevronDown className="text-muted-foreground h-4 w-4" />
-                              ) : (
-                                <ChevronRight className="text-muted-foreground h-4 w-4" />
-                              )}
-                            </div>
+                    <div
+                      key={subIndex}
+                      className={cn(
+                        'space-y-3',
+                        // Make items with third-level menus take up a full row
+                        hasThirdLevelMenu(subItem) ? 'col-span-2' : '',
+                      )}
+                    >
+                      {/* Items with third-level menus */}
+                      {hasThirdLevelMenu(subItem) ? (
+                        <div className="space-y-3">
+                          {/* Header with title and link */}
+                          <div className="border-b pb-2">
+                            <NavigationMenuLink asChild>
+                              <Link
+                                href={subItem.href}
+                                className="hover:text-primary block transition-colors"
+                              >
+                                <div className="flex items-center gap-2 text-sm font-medium">
+                                  {subItem.icon && (
+                                    <subItem.icon className="h-4 w-4" />
+                                  )}
+                                  {subItem.title}
+                                </div>
+                                {subItem.description && (
+                                  <p className="text-muted-foreground mt-1 text-xs">
+                                    {subItem.description}
+                                  </p>
+                                )}
+                              </Link>
+                            </NavigationMenuLink>
                           </div>
 
-                          {/* Main link for the category */}
-                          <NavigationMenuLink asChild>
-                            <Link
-                              href={subItem.href}
-                              className="hover:text-primary hover:bg-muted/30 block border-t px-3 py-2 text-xs transition-colors"
-                            >
-                              View all {subItem.title} options
-                            </Link>
-                          </NavigationMenuLink>
-
-                          {/* Accordion content */}
-                          {expandedItems[subItem.title] &&
-                            subItem.dropdownItems && (
-                              <div className="bg-muted/10 border-t p-2">
-                                <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-                                  {subItem.dropdownItems.map(
-                                    (deepItem, deepIndex) => (
-                                      <NavigationMenuLink
-                                        key={deepIndex}
-                                        asChild
-                                      >
-                                        <Link
-                                          href={deepItem.href}
-                                          className="hover:text-primary hover:bg-muted/30 block rounded px-2 py-1 text-xs transition-colors"
-                                        >
-                                          {deepItem.title}
-                                        </Link>
-                                      </NavigationMenuLink>
-                                    ),
-                                  )}
-                                </div>
-                              </div>
+                          {/* Grid of third-level items */}
+                          <div className="grid grid-cols-4 gap-2">
+                            {subItem.dropdownItems?.map(
+                              (deepItem, deepIndex) => (
+                                <NavigationMenuLink key={deepIndex} asChild>
+                                  <Link
+                                    href={deepItem.href}
+                                    className="hover:text-primary hover:bg-muted/30 block rounded p-2 text-xs transition-colors"
+                                  >
+                                    {deepItem.title}
+                                  </Link>
+                                </NavigationMenuLink>
+                              ),
                             )}
+                          </div>
                         </div>
                       ) : (
-                        // Regular items without deep menus
+                        // Regular items without third-level menus
                         <>
                           <NavigationMenuLink asChild>
                             <Link
@@ -237,24 +212,6 @@ export function ServiceMenu({
                               )}
                             </Link>
                           </NavigationMenuLink>
-
-                          {subItem.dropdownItems &&
-                            subItem.dropdownItems.length > 0 && (
-                              <div className="space-y-2 border-l pl-6">
-                                {subItem.dropdownItems.map(
-                                  (deepItem, deepIndex) => (
-                                    <NavigationMenuLink key={deepIndex} asChild>
-                                      <Link
-                                        href={deepItem.href}
-                                        className="hover:text-primary block py-1 text-xs transition-colors"
-                                      >
-                                        {deepItem.title}
-                                      </Link>
-                                    </NavigationMenuLink>
-                                  ),
-                                )}
-                              </div>
-                            )}
                         </>
                       )}
                     </div>

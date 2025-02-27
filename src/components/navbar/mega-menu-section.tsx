@@ -53,33 +53,37 @@ export function MegaMenuSection({ item, className }: MegaMenuSectionProps) {
   return (
     <div
       className={cn(
-        'hover:bg-muted/50 space-y-3 rounded-md p-3 transition-colors',
+        'hover:bg-muted/50 rounded-md p-0 transition-colors',
         className,
       )}
     >
-      <div>
+      <div className="w-full">
         <NavigationMenuLink asChild>
           <Link
             href={item.href}
-            className="hover:text-primary text-base font-medium transition-colors"
+            className="hover:text-primary flex w-full items-start gap-3 p-3 text-base font-medium transition-colors"
           >
             {item.icon && (
-              <div className="bg-muted mb-2 flex h-9 w-9 items-center justify-center rounded-md">
+              <div className="bg-muted flex h-9 w-9 shrink-0 items-center justify-center rounded-md">
                 <item.icon className="h-5 w-5" />
               </div>
             )}
-            <div className="text-sm leading-none font-medium">{item.title}</div>
+            <div className="min-w-0 flex-1">
+              <span className="text-sm leading-none font-medium">
+                {item.title}
+              </span>
+              {item.description && (
+                <p className="text-muted-foreground mt-1 line-clamp-2 text-xs">
+                  {item.description}
+                </p>
+              )}
+            </div>
           </Link>
         </NavigationMenuLink>
-        {item.description && (
-          <p className="text-muted-foreground mt-1 line-clamp-2 text-xs">
-            {item.description}
-          </p>
-        )}
       </div>
 
       {hasChildren && (
-        <ul className="space-y-2">
+        <ul className="space-y-2 p-3 pt-0">
           {item.dropdownItems?.map((child: DropdownItem, childIndex) => {
             const hasSubItems = Boolean(
               child.dropdownItems && child.dropdownItems.length > 0,
@@ -92,54 +96,56 @@ export function MegaMenuSection({ item, className }: MegaMenuSectionProps) {
                 onMouseEnter={() => handleMouseEnter(childIndex, hasSubItems)}
                 onMouseLeave={handleMouseLeave}
               >
-                <NavigationMenuLink asChild>
-                  <Link
-                    href={child.href}
-                    className="hover:text-primary hover:bg-muted/50 flex w-full items-center justify-between gap-1 rounded-sm px-1 py-1 transition-colors"
-                  >
-                    <div className="flex items-center gap-1">
-                      {child.icon && (
-                        <child.icon className="text-muted-foreground h-3.5 w-3.5" />
-                      )}
-                      <span>{child.title}</span>
-                    </div>
-                    {hasSubItems && (
-                      <ChevronRight className="text-muted-foreground h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                    )}
-                  </Link>
-                </NavigationMenuLink>
-
-                {hasSubItems &&
-                  hoveredItemIndex === childIndex &&
-                  child.dropdownItems && (
-                    <div
-                      className="bg-popover animate-in fade-in-0 zoom-in-95 absolute top-0 left-full z-10 ml-1 w-56 rounded-md border p-2 shadow-md"
-                      style={{ marginTop: '-4px' }}
+                <div className="w-full">
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href={child.href}
+                      className="hover:text-primary hover:bg-muted/50 flex w-full items-center justify-between gap-1 rounded-sm px-2 py-1.5 transition-colors"
                     >
-                      <div className="mb-1 border-b pb-1 text-xs font-medium">
-                        {child.title}
-                      </div>
-                      <ul className="space-y-1">
-                        {child.dropdownItems.map(
-                          (subChild: DropdownItem, subChildIndex) => (
-                            <li key={subChildIndex} className="text-sm">
-                              <NavigationMenuLink asChild>
-                                <Link
-                                  href={subChild.href}
-                                  className="hover:text-primary hover:bg-muted/50 flex w-full items-center gap-1 rounded-sm px-1 py-1 transition-colors"
-                                >
-                                  {subChild.icon && (
-                                    <subChild.icon className="text-muted-foreground h-3.5 w-3.5" />
-                                  )}
-                                  <span>{subChild.title}</span>
-                                </Link>
-                              </NavigationMenuLink>
-                            </li>
-                          ),
+                      <div className="flex items-center gap-1.5">
+                        {child.icon && (
+                          <child.icon className="text-muted-foreground h-3.5 w-3.5" />
                         )}
-                      </ul>
-                    </div>
-                  )}
+                        <span>{child.title}</span>
+                      </div>
+                      {hasSubItems && (
+                        <ChevronRight className="text-muted-foreground h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                      )}
+                    </Link>
+                  </NavigationMenuLink>
+
+                  {hasSubItems &&
+                    hoveredItemIndex === childIndex &&
+                    child.dropdownItems && (
+                      <div
+                        className="bg-popover animate-in fade-in-0 zoom-in-95 absolute top-0 left-full z-10 ml-1 w-56 rounded-md border p-2 shadow-md"
+                        style={{ marginTop: '-4px' }}
+                      >
+                        <div className="mb-1 border-b pb-1 text-xs font-medium">
+                          {child.title}
+                        </div>
+                        <ul className="space-y-1">
+                          {child.dropdownItems.map(
+                            (subChild: DropdownItem, subChildIndex) => (
+                              <li key={subChildIndex} className="text-sm">
+                                <NavigationMenuLink asChild>
+                                  <Link
+                                    href={subChild.href}
+                                    className="hover:text-primary hover:bg-muted/50 flex w-full items-center gap-1 rounded-sm px-1 py-1 transition-colors"
+                                  >
+                                    {subChild.icon && (
+                                      <subChild.icon className="text-muted-foreground h-3.5 w-3.5" />
+                                    )}
+                                    <span>{subChild.title}</span>
+                                  </Link>
+                                </NavigationMenuLink>
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      </div>
+                    )}
+                </div>
               </li>
             );
           })}

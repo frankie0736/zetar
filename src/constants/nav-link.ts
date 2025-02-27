@@ -11,7 +11,6 @@ import {
   Layers,
   Boxes,
   Box,
-  Cylinder,
   History,
   Printer,
   FlaskConical,
@@ -45,7 +44,6 @@ import {
   Waves,
   RotateCw,
   Disc,
-  Database,
 } from 'lucide-react';
 
 export interface DropdownItem {
@@ -174,13 +172,77 @@ const moldDevelopmentItems: DropdownItem[] = [
     description: 'Automotive-standard injection molds.',
     icon: Car,
   },
+  {
+    title: 'MUD',
+    href: '/mold-development/MUD-mold',
+    description: 'MUD injection molds for high-volume production.',
+    icon: Layers,
+  },
+];
+
+const highTemperatureItems: DropdownItem[] = [
+  {
+    title: 'PEEK',
+    href: '/injection-molding/high-tempreture/peek',
+    description: 'Polyether ether ketone high-performance polymer.',
+    icon: Thermometer,
+  },
+  {
+    title: 'PTFE',
+    href: '/injection-molding/high-tempreture/ptfe',
+    description: 'Polytetrafluoroethylene with excellent heat resistance.',
+    icon: Thermometer,
+  },
+  {
+    title: 'PPSU',
+    href: '/injection-molding/high-tempreture/ppsu',
+    description: 'Polyphenylsulfone for high-temperature applications.',
+    icon: Thermometer,
+  },
+  {
+    title: 'PEI',
+    href: '/injection-molding/high-tempreture/pei',
+    description: 'Polyetherimide with high heat and chemical resistance.',
+    icon: Thermometer,
+  },
+  {
+    title: 'LCP',
+    href: '/injection-molding/high-tempreture/lcp',
+    description: 'Liquid Crystal Polymer for extreme temperature resistance.',
+    icon: Thermometer,
+  },
+  {
+    title: 'PPA',
+    href: '/injection-molding/high-tempreture/ppa',
+    description: 'Polyphthalamide for high-temperature structural parts.',
+    icon: Thermometer,
+  },
+  {
+    title: 'PET',
+    href: '/injection-molding/high-tempreture/pet',
+    description: 'Polyethylene terephthalate for heat-resistant applications.',
+    icon: Thermometer,
+  },
+  {
+    title: 'PA46',
+    href: '/injection-molding/high-tempreture/pa46',
+    description: 'Polyamide 46 with exceptional thermal stability.',
+    icon: Thermometer,
+  },
 ];
 
 // Injection Molding
 const injectionMoldingItems: DropdownItem[] = [
   {
-    title: '2K',
-    href: '/injection-molding/2k',
+    title: 'High Temperature Molding',
+    href: '/injection-molding/high-temperature-molding',
+    description: 'Heat-resistant material processing.',
+    icon: Flame,
+    dropdownItems: highTemperatureItems,
+  },
+  {
+    title: '2K Molding',
+    href: '/injection-molding/2k-molding',
     description: 'Two-component injection molding process.',
     icon: Layers3,
   },
@@ -197,31 +259,25 @@ const injectionMoldingItems: DropdownItem[] = [
     icon: Dices,
   },
   {
-    title: 'Thin Wall',
-    href: '/injection-molding/thin-wall',
+    title: 'Thin Wall Molding',
+    href: '/injection-molding/thin-wall-molding',
     description: 'Precision thin-walled part production.',
     icon: Shrink,
   },
   {
-    title: 'IMD',
-    href: '/injection-molding/imd',
+    title: 'IMD Molding',
+    href: '/injection-molding/imd-molding',
     description: 'In-mold decoration technology.',
     icon: Sticker,
   },
   {
-    title: 'PVC',
-    href: '/injection-molding/pvc',
+    title: 'PVC Molding',
+    href: '/injection-molding/pvc-molding',
     description: 'Specialized PVC material molding.',
     icon: Box,
   },
   {
-    title: 'High Temperature',
-    href: '/injection-molding/high-tempreture',
-    description: 'Heat-resistant material processing.',
-    icon: Flame,
-  },
-  {
-    title: 'Hot Runner',
+    title: 'Hot Runner Molding',
     href: '/injection-molding/hot-runner-molding',
     description: 'Advanced hot runner technology.',
     icon: GitGraph,
@@ -473,59 +529,61 @@ const servicesItems: DropdownItem[] = [
     dropdownItems: surfaceTreatmentItems,
   },
   {
-    title: 'Welding Process',
-    href: '/plastic-welding',
+    title: 'Welding Assembly',
+    href: '/welding-assembly',
     description: 'Plastic welding technologies.',
     icon: Zap,
     dropdownItems: weldingItems,
   },
 ];
 
-// Materials
+// Materials Guide
 const materialItems: DropdownItem[] = [
   {
-    title: 'General Plastics',
-    href: '/materials/general',
-    description: 'Common plastic materials (PP, ABS, PC, PS, PE).',
-    icon: Box,
-  },
-  {
-    title: 'Advanced Plastics',
-    href: '/materials/advanced',
-    description: 'High-performance materials (PEEK, PTFE, LCP, PA46).',
-    icon: Cylinder,
-  },
-  {
-    title: 'Material Selection Guide',
-    href: '/material-guide',
-    description: 'Guide for selecting the right materials.',
+    title: 'ABS',
+    href: '/materials-guide/abs',
+    description: 'ABS material guide.',
     icon: FileStack,
   },
-];
-
-// Process
-const processItems: DropdownItem[] = [
   {
-    title: 'Mold Development Process',
-    href: '/process/mold',
-    description: 'Our mold development workflow.',
-    icon: Workflow,
+    title: 'PP',
+    href: '/materials-guide/pp',
+    description: 'PP material guide.',
+    icon: FileStack,
   },
   {
-    title: 'Production Process',
-    href: '/process/production',
-    description: 'Our manufacturing process workflow.',
-    icon: GitGraph,
+    title: 'PC',
+    href: '/materials-guide/pc',
+    description: 'PC material guide.',
+    icon: FileStack,
+  },
+  {
+    title: 'PS',
+    href: '/materials-guide/ps',
+    description: 'PS material guide.',
+    icon: FileStack,
+  },
+  {
+    title: 'PA',
+    href: '/materials-guide/pa',
+    description: 'PA material guide.',
+    icon: FileStack,
+  },
+  {
+    title: 'PE',
+    href: '/materials-guide/pe',
+    description: 'PE material guide.',
+    icon: FileStack,
   },
 ];
 
 // Resources
 const resourceItems: DropdownItem[] = [
   {
-    title: 'Materials',
-    href: '/materials',
-    description: 'Plastic and rubber material information.',
-    icon: Database,
+    title: 'Materials Guide',
+    href: '/materials-guide',
+    description: 'Materials guide for injection molding.',
+    icon: FileStack,
     dropdownItems: materialItems,
   },
   {
@@ -533,7 +591,12 @@ const resourceItems: DropdownItem[] = [
     href: '/process',
     description: 'Manufacturing process information.',
     icon: Workflow,
-    dropdownItems: processItems,
+  },
+  {
+    title: 'Technical Blog',
+    href: '/blog',
+    description: 'Explore the latest in injection molding technology.',
+    icon: FileStack,
   },
 ];
 

@@ -13,7 +13,7 @@ interface BlogPostProps {
 
 export default async function BlogPost({ params }: BlogPostProps) {
   const { slug } = await params;
-  const title = unslugify(slug).replace(/^[a-z]/, (char) => char.toUpperCase());
+  const title = unslugify(slug).replace(/^[a-z]/, (char) => char.toUpperCase()); // TODO: This is a temporary solution to convert the slug to a title.
 
   return (
     <section className="py-32">
